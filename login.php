@@ -14,7 +14,7 @@ $errors = [];
 if (!empty($_POST['email']) && !empty($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $user = User::login($dbConn, $email, $password);
+    $user = User::login($email, $password);
     if (!empty($user)) {
         $_SESSION['user'] = serialize($user);
         if (!empty($_POST['remember'])) {

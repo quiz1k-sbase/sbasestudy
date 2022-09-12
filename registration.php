@@ -3,6 +3,8 @@
 <?php
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "config.php";
 require_once CLASS_PATH . DIRECTORY_SEPARATOR . "User.php";
+require_once CLASS_PATH . DIRECTORY_SEPARATOR . "Db.php";
+$dbConn = new Db();
 
 if (!empty($_SESSION['user'])) {
     header("Location: /index.php");
@@ -18,7 +20,7 @@ if (!empty($_POST)) {
                 continue;
             }
 
-            $stmt = $dbConn->prepare("SELECT id FROM `users` WHERE `email` = :email");
+            $stmt = $dbConn->getConnection()->prepare("SELECT id FROM `users` WHERE `email` = :email");
             $stmt->execute(["email" => $val]);
             if (!empty($stmt->fetchColumn())) {
                 $errors[$key] = ucfirst($key) . " " . $val . " is already used";
@@ -31,7 +33,7 @@ if (!empty($_POST)) {
     }
     
     if (empty($errors)) {
-        $user = User::create($dbConn, $_POST);
+        $user = User::create($_POST);
         $_SESSION['user'] = serialize($user);
         header("Location: /index.php");
     }

@@ -1,6 +1,8 @@
 <?php
 
-class User {
+require_once CLASS_PATH . DIRECTORY_SEPARATOR . "Db.php";
+
+class User extends Db {
     public int $id;
     public string $username;
     public string $email;
@@ -46,9 +48,10 @@ class User {
         "email" => $this->email];
     }
 
-    public static function create(object $db, array $userData): User
+    public static function create(array $userData): User
     {
-        $stmt = $db->prepare("INSERT INTO `users`(`username`, `email`, `first_name`,
+        $db = new Db();
+        $stmt = $db->getConnection()->prepare("INSERT INTO `users`(`username`, `email`, `first_name`,
         `last_name`, `phone`, `password`) VALUES(:username, :email, :firstName,
         :lastName, :phone, :password)");
         $user = [
@@ -60,7 +63,7 @@ class User {
             "password" => self::encryptPassword($userData['password'])
         ];
         $stmt->execute($user);
-        $id = $db->lastInsertId();
+        $id = $db->getConnection()->lastInsertId();
         $user = new User(
             $id, $userData["username"], $userData["email"],
             $userData["firstName"], $userData["lastName"], $userData["phone"],
@@ -69,9 +72,10 @@ class User {
         return $user;
     }
 
-    public static function login(object $db, string $email, string $password): User|bool
+    public static function login(string $email, string $password): User|bool
     {
-        $stmt = $db->prepare("SELECT * FROM `users` WHERE `email` = :email and `password` = :password");
+        $db = new Db();
+        $stmt = $db->getConnection()->prepare("SELECT * FROM `users` WHERE `email` = :email and `password` = :password");
         $stmt->execute(["email" => $email, "password" => self::encryptPassword($password)]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!empty($user)) {
