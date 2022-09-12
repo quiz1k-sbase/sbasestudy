@@ -6,6 +6,11 @@ require_once CLASS_PATH . DIRECTORY_SEPARATOR . "User.php";
 require_once CLASS_PATH . DIRECTORY_SEPARATOR . "Comment.php";
 
 $uid = json_decode(json_encode(unserialize($_SESSION['user'])), true);
+if (!empty($_POST['text']))
+{
+    $comment = new Comment();
+    $comment->create($uid['id'], $_POST['text']);
+}
 $comment = new Comment();
 $comments = $comment->allPosts();
 

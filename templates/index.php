@@ -1,6 +1,32 @@
 <?php
 require_once("header.php"); 
 ?>
+<head>
+    <title>Posts</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function post()
+    {
+        let text = document.getElementById("text").value;
+        if(text)
+        {
+            $.ajax({
+                type:   'post',
+                url:    '../index.php',
+                data:   {
+                    user_comm:text
+                }
+                success:    function (response)
+                {
+                    document.getElementById("all_comments").innerHTML=response+document.getElementById("all_comments").innerHTML;
+                    document.getElementById("text").value="";
+                }
+            })
+        }
+        return false;
+    }
+</script>
 <body class="bg-light">
 <main>
 
@@ -8,9 +34,12 @@ require_once("header.php");
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1 class="fw-light">Posts:</h1>
-                <p class="lead text-muted">If you want add post - click on the button and do it!</p>
-                <p>
-                    <a href="../addPost.php" class="btn btn-primary my-2">Add post</a>
+                <form method="post">
+                    <label class="form-label">Input your post:</label><br>
+                    <textarea class="form-control" type="text" name="text" rows="3" id="text"></textarea><br>
+                    <button class="btn btn-outline-primary w-100" type="submit">Add</button>
+                </form>
+                <p class="mt-2">
                     <a href="../logout.php" class="btn btn-danger">Logout</a>
                 </p>
             </div>
@@ -19,7 +48,7 @@ require_once("header.php");
 
     <div class="album py-5 bg-light">
         <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="all_comments">
                 <?php foreach ($comments as $comment => $val): ?>
                 <div class="col">
                     <div class="card shadow-sm">
