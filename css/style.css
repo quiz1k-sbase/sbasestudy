@@ -1,0 +1,92 @@
+body {
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.center-page {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.comments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.comments-form {
+    padding-left: 20px;
+}
+
+.comments-form textarea {
+    width: 70%; 
+    min-height: 100px;
+}
+
+.comments-panel {
+    width: 75%; 
+    border-radius: 24px;
+    background-color: aliceblue;
+    padding: 20px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.username {
+    font-weight: bold;
+}
+
+.comment {
+    display: flex;
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #bdbebd;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.comment:hover {
+    display: flex;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #545454;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.18), 0 4px 10px rgba(0,0,0,0.15);
+    transition-duration: .5s;
+}
+
+.mr-auto {
+    margin-right: auto;
+}
+
+.mr-20 {
+    margin: 0px 20px;
+}
+
+.mr-t-10 {
+    margin-top: 10px;
+}
+
+.mr-t-20 {
+    margin-top: 20px;
+}
+
+.mrleft-and-right-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-align-justify {
+    text-align: justify;
+}
+
+.flex-direction-column {
+    flex-direction: column;
+}
