@@ -2,11 +2,11 @@
 
 class Db
 {
-    public string $host = "localhost";
-    public string $user = "root";
-    public string $pass = "1234";
-    public string $dbname = "testBook";
-    public string $charset = "utf8";
+    private string $host = "localhost";
+    private string $user = "root";
+    private string $pass = "1234";
+    private string $dbname = "testBook";
+    private string $charset = "utf8";
     private $conn;
 
     public function __construct()

@@ -26,6 +26,13 @@ if (!empty($_POST)) {
                 $errors[$key] = ucfirst($key) . " " . $val . " is already used";
             }
         }
+
+        if ($key === 'password') {
+            if (mb_strlen($val) < 6) {
+                $errors[$key] = ucfirst($key) . ' must be 6 or more symbols';
+                continue;
+            }
+        }
     }
 
     if ($_POST['password'] !== $_POST['confirm_password']) {

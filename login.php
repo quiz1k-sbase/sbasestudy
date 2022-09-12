@@ -12,6 +12,14 @@ if (!empty($_SESSION['user'])) {
 $errors = [];
 
 if (!empty($_POST['email']) && !empty($_POST['password'])) {
+    foreach ($_POST as $key => $val) {
+        if ($key === "email") {
+            if (!filter_var($val, FILTER_VALIDATE_EMAIL)) {
+                $errors[$key] = ucfirst($key) . ' is invalid';
+                continue;
+            }
+        }
+    }
     $email = $_POST['email'];
     $password = $_POST['password'];
     $user = User::login($email, $password);

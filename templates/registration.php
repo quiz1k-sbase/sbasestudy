@@ -14,7 +14,7 @@ require_once("header.php");
                         <div><?php echo $error;?></div>
                     </div>
                 <?php endforeach; ?>
-                <form method="post">
+                <form method="post" name="registerForm">
                     <label class="form-label">Username:</label><br>
                     <input class="form-control" type="text" name="username"><br>
                     <label class="form-laber" class="form-label">Email:</label><br>
@@ -24,7 +24,7 @@ require_once("header.php");
                     <label class="form-label">Last name:</label><br>
                     <input class="form-control" type="text" name="lastName"><br>
                     <label class="form-label">Phone:</label><br>
-                    <input class="form-control" type="text" name="phone"><br>
+                    <input class="form-control" type="text" name="phone" onsubmit="return checkForm()"><br>
                     <label class="form-label">Password:</label><br>
                     <input class="form-control" type="password" name="password"><br>
                     <label class="form-label">Password:</label><br>
@@ -38,4 +38,7 @@ require_once("header.php");
         </div>
     </div>
 </body>
+
+<script src="../js/main.js"></script>
+
 </html>
