@@ -16,7 +16,7 @@ require_once("header.php");
                 url:    '../index.php',
                 data:   {
                     user_comm:text
-                }
+                },
                 success:    function (response)
                 {
                     document.getElementById("all_comments").innerHTML=response+document.getElementById("all_comments").innerHTML;
@@ -26,6 +26,33 @@ require_once("header.php");
         }
         return false;
     }
+
+    function deleteComment(id) {
+        if (confirm("Do you want delete this comment?")) {
+            $.ajax({
+               type:    'post',
+                url:    '../index.php',
+                data:   'id=' + id,
+                success: function (data) {
+                   if (data) {
+                       $("#comment-" + id).remove();
+                   }
+                }
+            });
+        }
+    }
+
+    function editComment(id) {
+        $.ajax({
+            type:   'post',
+            url:    '../index.php',
+            data:   'id=' + id,
+            success: function (data) {
+
+            }
+        });
+    }
+
 </script>
 <body class="bg-light">
 <main>
@@ -50,16 +77,24 @@ require_once("header.php");
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="all_comments">
                 <?php foreach ($comments as $comment => $val): ?>
-                <div class="col">
+                <div class="col" id="comment-<?php echo $val['id'];?>">
                     <div class="card shadow-sm">
 
                         <div class="card-body">
                             <p class="card-text"><?php echo $val['comment']; ?></p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <small class="text-muted"><?php echo $val['username']; ?></small>
+                                    <small class="text-muted"><?php echo Comment::getAuthor($val['user_id']); ?></small>
                                 </div>
                                 <small class="text-muted"><?php echo $val['date']; ?></small>
+                                <?php
+                                if ($uid["id"] === $val["user_id"])
+                                {
+                                    $id = $val['id'];
+                                    echo "<button type='button' class='btn btn-warning' onclick='editComment($id)'>Edit</button>";
+                                    echo "<button type='button' class='btn btn-danger' onclick='deleteComment($id)'>Delete</button>";
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
