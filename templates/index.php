@@ -71,17 +71,17 @@ require_once("header.php");
     }
 
     function getPostId(id) {
-        let x = document.getElementById("#post-" + id);
-        alert(x)
-        return x
-        /*$.ajax({
-            type:    post;
+        $.ajax({
+            type:    'post',
             url:     '../index.php',
-            data:   'post_id' + id,
+            data:   {
+                post_id: id,
+                comment: comment
+            },
             success: function (data) {
-                return data;
-            };
-        });*/
+                console.log(data);
+            }
+        });
     }
 
 </script>
@@ -108,7 +108,7 @@ require_once("header.php");
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 g-3" id="all_comments">
                 <?php foreach ($posts as $post => $val): ?>
-                    <div class="col" id="post-<?php var_dump($val['id']);echo $val['id'];?>">
+                    <div class="col" id="post-<?php echo $val['id'];?>">
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <p class="card-text"><?php echo $val['text']; ?></p>
@@ -117,7 +117,7 @@ require_once("header.php");
                                         <small class="text-muted"><?php echo Post::getAuthor($val['user_id']); ?></small>
                                     </div>
                                     <small class="text-muted"><?php echo $val['date']; ?></small>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="getPostId(<?php $val['id'];?>)">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         Add comment
                                     </button>
                                     <?php
@@ -143,11 +143,10 @@ require_once("header.php");
                                         <div class="modal-body">
                                             <label class="form-label">Input your comment:</label><br>
                                             <textarea class="form-control" type="text" name="comment" rows="3" id="comment"></textarea><br>
-                                            <input type="hidden" name="post_id" value="<?php echo $idPost;?>">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Add</button>
+                                            <button type="submit" class="btn btn-primary" onclick="getPostId(<?php echo $val['id'];?>)">Add</button>
                                         </div>
                                     </form>
                                 </div>
