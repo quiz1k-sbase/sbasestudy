@@ -4,6 +4,8 @@ require_once("header.php");
 <head>
     <title>Posts</title>
 </head>
+<script src="../js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
     function post()
@@ -22,7 +24,7 @@ require_once("header.php");
                     document.getElementById("all_comments").innerHTML=response+document.getElementById("all_comments").innerHTML;
                     document.getElementById("text").value="";
                 }
-            })
+            });
         }
         return false;
     }
@@ -30,12 +32,27 @@ require_once("header.php");
     function deleteComment(id) {
         if (confirm("Do you want delete this comment?")) {
             $.ajax({
+                type:    'post',
+                url:    '../index.php',
+                data:   'id=' + id,
+                success: function (data) {
+                    if (data) {
+                        $("#comment-" + id).remove();
+                    }
+                }
+            });
+        }
+    }
+
+    function deletePost(id) {
+        if (confirm("Do you want delete this comment?")) {
+            $.ajax({
                type:    'post',
                 url:    '../index.php',
                 data:   'id=' + id,
                 success: function (data) {
                    if (data) {
-                       $("#comment-" + id).remove();
+                       $("#post-" + id).remove();
                    }
                 }
             });
@@ -51,6 +68,20 @@ require_once("header.php");
 
             }
         });
+    }
+
+    function getPostId(id) {
+        let x = document.getElementById("#post-" + id);
+        alert(x)
+        return x
+        /*$.ajax({
+            type:    post;
+            url:     '../index.php',
+            data:   'post_id' + id,
+            success: function (data) {
+                return data;
+            };
+        });*/
     }
 
 </script>
@@ -75,30 +106,54 @@ require_once("header.php");
 
     <div class="album py-5 bg-light">
         <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="all_comments">
-                <?php foreach ($comments as $comment => $val): ?>
-                <div class="col" id="comment-<?php echo $val['id'];?>">
-                    <div class="card shadow-sm">
-
-                        <div class="card-body">
-                            <p class="card-text"><?php echo $val['comment']; ?></p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <small class="text-muted"><?php echo Comment::getAuthor($val['user_id']); ?></small>
+            <div class="row row-cols-1 row-cols-sm-2 g-3" id="all_comments">
+                <?php foreach ($posts as $post => $val): ?>
+                    <div class="col" id="post-<?php var_dump($val['id']);echo $val['id'];?>">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <p class="card-text"><?php echo $val['text']; ?></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <small class="text-muted"><?php echo Post::getAuthor($val['user_id']); ?></small>
+                                    </div>
+                                    <small class="text-muted"><?php echo $val['date']; ?></small>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="getPostId(<?php $val['id'];?>)">
+                                        Add comment
+                                    </button>
+                                    <?php
+                                    if ($uid["id"] === $val["user_id"])
+                                    {
+                                        $id = $val['id'];
+                                        echo "<button type='button' class='btn btn-warning' onclick='editComment($id)'>Edit</button>";
+                                        echo "<button type='button' class='btn btn-danger' onclick='deletePost($id)'>Delete</button>";
+                                    }
+                                    ?>
                                 </div>
-                                <small class="text-muted"><?php echo $val['date']; ?></small>
-                                <?php
-                                if ($uid["id"] === $val["user_id"])
-                                {
-                                    $id = $val['id'];
-                                    echo "<button type='button' class='btn btn-warning' onclick='editComment($id)'>Edit</button>";
-                                    echo "<button type='button' class='btn btn-danger' onclick='deleteComment($id)'>Delete</button>";
-                                }
-                                ?>
+                                <!--TODO add comment to the post and output comments and visible it-->
+                            </div>
+                        </div>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form method="post">
+                                        <div class="modal-body">
+                                            <label class="form-label">Input your comment:</label><br>
+                                            <textarea class="form-control" type="text" name="comment" rows="3" id="comment"></textarea><br>
+                                            <input type="hidden" name="post_id" value="<?php echo $idPost;?>">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <?php endforeach; ?>
             </div>
         </div>

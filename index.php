@@ -4,6 +4,7 @@
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "config.php";
 require_once CLASS_PATH . DIRECTORY_SEPARATOR . "User.php";
 require_once CLASS_PATH . DIRECTORY_SEPARATOR . "Comment.php";
+require_once CLASS_PATH . DIRECTORY_SEPARATOR . "Post.php";
 
 if (empty($_SESSION['user']))
 {
@@ -14,16 +15,26 @@ if (empty($_SESSION['user']))
 $uid = json_decode(json_encode(unserialize($_SESSION['user'])), true);
 if (!empty($_POST['text']))
 {
-    $comment = new Comment();
-    $comment->create($uid['id'], $_POST['text']);
+    $post = new Post();
+    $post->create($uid['id'], $_POST['text']);
 }
+
+if (!empty($_POST['comment']))
+{
+    $comment = new Comment();
+    $comment->create($uid['id'], $_POST['post_id'], $_POST['comment']);
+}
+
 $comment = new Comment();
 $comments = $comment->allPosts();
 
+$post = new Post();
+$posts = $post->allPosts();
+
 if (!empty($_POST['id']))
 {
-    $comment = new Comment();
-    $comment->deleteComment($_POST['id']);
+    $delPost = new Post();
+    $delPost->deletePost($_POST['id']);
 }
 
 require_once ROOT_PATH . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "index.php";

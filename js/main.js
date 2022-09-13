@@ -5,3 +5,7 @@ function checkForm() {
         return "Wrong number"
     }
 }
+
+function popUpAddComment() {
+
+}

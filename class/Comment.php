@@ -5,13 +5,14 @@ require_once CLASS_PATH . DIRECTORY_SEPARATOR . "Db.php";
 class Comment extends Db {
     public int $id;
     public int $user_id;
+    public int $post_id;
     public string $text;
     public int $date;
 
-    public function create(int $uid, string $text) {
+    public function create(int $uid, int $post_id, string $text) {
         $db = new Db();
-        $stmt = $db->getConnection()->prepare("INSERT INTO comments(`user_id`, `comment`) VALUES(:user_id, :comment)");
-        $stmt->execute(array('user_id' => $uid, 'comment' => $text));
+        $stmt = $db->getConnection()->prepare("INSERT INTO comments(`user_id`, `post_id`, `comment`) VALUES(:user_id, :post_id, :comment)");
+        $stmt->execute(array('user_id' => $uid, 'post_id' => $post_id, 'comment' => $text));
         $this->id = $db->getConnection()->lastInsertId();
         return $this->id;
     }
@@ -23,7 +24,7 @@ class Comment extends Db {
         $comments = [];
         while ($row = $stmt->fetch(PDO::FETCH_LAZY))
         {
-            $comments[] = ['id' => $row->id, 'username' => $row->username, 'comment' => $row->comment,
+            $comments[] = ['id' => $row->id, 'username' => $row->username, 'post_id' => $row->post_id, 'comment' => $row->comment,
                 'date' => $row->date, 'user_id' => $row->user_id];
         }
         return $comments;
