@@ -44,6 +44,14 @@ class Comment extends Db {
         return $author;
     }
 
+    public static function getDate($id) {
+        $db = new Db();
+        $stmt = $db->getConnection()->prepare("SELECT comments.date FROM `comments` WHERE `id` = :id;");
+        $stmt->execute(['id' => $id]);
+        $date = $stmt->fetchColumn();
+        return $date;
+    }
+
     public function editComment($id) {
 
     }

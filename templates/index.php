@@ -7,93 +7,6 @@ require_once("header.php");
 <script src="../js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    function post()
-    {
-        let text = document.getElementById("text").value;
-        if(text)
-        {
-            $.ajax({
-                type:   'post',
-                url:    '../index.php',
-                data:   {
-                    user_comm:text
-                },
-                success:    function (response)
-                {
-                    document.getElementById("all_comments").innerHTML=response+document.getElementById("all_comments").innerHTML;
-                    document.getElementById("text").value="";
-                }
-            });
-        }
-        return false;
-    }
-
-    function deleteComment(id) {
-        if (confirm("Do you want delete this comment?")) {
-            $.ajax({
-                type:    'post',
-                url:    '../index.php',
-                data:   'id=' + id,
-                success: function (data) {
-                    if (data) {
-                        $("#comment-" + id).remove();
-                    }
-                }
-            });
-        }
-    }
-
-    function deletePost(id) {
-        if (confirm("Do you want delete this comment?")) {
-            $.ajax({
-               type:    'post',
-                url:    '../index.php',
-                data:   'id=' + id,
-                success: function (data) {
-                   if (data) {
-                       $("#post-" + id).remove();
-                   }
-                }
-            });
-        }
-    }
-
-    function editComment(id) {
-        $.ajax({
-            type:   'post',
-            url:    '../index.php',
-            data:   'id=' + id,
-            success: function (data) {
-
-            }
-        });
-    }
-
-    let globalId;
-
-    function getId(id) {
-        globalId = id;
-    }
-
-    function getPostId() {
-        let comment = document.getElementById("comment").value;
-        let id = globalId;
-        $.ajax({
-            type:    'post',
-            url:     'index.php',
-            data:   {
-                post_id: id,
-                comment: comment
-            },
-            success: function (data) {
-                document.getElementById("comment").value="";
-                document.getElementById("closeModal").click();
-            }
-        });
-    }
-
-</script>
 <body class="bg-light">
 <main>
 
@@ -138,25 +51,47 @@ require_once("header.php");
                                     }
                                     ?>
                                 </div>
-                                <!--TODO add comment to the post and output comments and visible it-->
+                                <div class="container g-3" id="commentsContainer-<?php echo $val['id'];?>">
+                                <?php foreach ($comments as $comment => $comVal): ?>
+                                    <?php if ($val['id'] === $comVal['post_id']): ?>
+                                        <div class="card w-50 mt-2" id="comment-<?php echo $comVal['id']; ?>">
+                                            <div class="card-body" id="commentBody">
+                                                <p class="card-text" id="comment-text"><?php echo $comVal['comment']; ?></p>
+                                                <small class="text-muted"><?php echo Comment::getAuthor($comVal['user_id']); ?></small>
+                                                <small class="text-muted"><?php echo Comment::getDate($comVal['id']); ?></small>
+                                                <?php
+                                                    if ($uid["id"] === $comVal["user_id"])
+                                                    {
+                                                    $id = $comVal['id'];
+                                                    echo "<button type='button' class='btn btn-warning' onclick='editComment($id)'>Edit</button>";
+                                                    echo "<button type='button' class='btn btn-danger' onclick='deleteComment($id)'>Delete</button>";
+                                                    }
+                                                ?>
+                                                <input class="d-none" id="uName" value="<?php echo Comment::getAuthor($comVal['user_id'])?>">
+                                                <input class="d-none" id="cDate" value="<?php echo Comment::getDate($comVal['id'])?>">
+                                            </div>
+                                        </div>
+                                    <?php endif ?>
+                                <?php endforeach; ?>
+                                </div>
                             </div>
                         </div>
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Add comment</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
                                         <div class="modal-body">
                                             <label class="form-label">Input your comment:</label><br>
                                             <textarea class="form-control" type="text" name="comment" rows="3" id="comment"></textarea><br>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModal">Close</button>
-                                            <button type="submit" class="btn btn-primary" onclick="getPostId()">Add</button>
+                                            <button type="submit" class="btn btn-primary" onclick="addComment()">Add</button>
                                         </div>
-                                </div>
+                                    </div>
                             </div>
                         </div>
                     </div>

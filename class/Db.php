@@ -5,7 +5,7 @@ class Db
     private string $host = "localhost";
     private string $user = "root";
     private string $pass = "1234";
-    private string $dbname = "testBook";
+    private string $dbname = "postsDb";
     private string $charset = "utf8";
     private $conn;
 
