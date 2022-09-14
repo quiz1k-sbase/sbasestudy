@@ -70,16 +70,25 @@ require_once("header.php");
         });
     }
 
-    function getPostId(id) {
+    let globalId;
+
+    function getId(id) {
+        globalId = id;
+    }
+
+    function getPostId() {
+        let comment = document.getElementById("comment").value;
+        let id = globalId;
         $.ajax({
             type:    'post',
-            url:     '../index.php',
+            url:     'index.php',
             data:   {
                 post_id: id,
                 comment: comment
             },
             success: function (data) {
-                console.log(data);
+                document.getElementById("comment").value="";
+                document.getElementById("closeModal").click();
             }
         });
     }
@@ -106,7 +115,7 @@ require_once("header.php");
 
     <div class="album py-5 bg-light">
         <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 g-3" id="all_comments">
+            <div class="row row-cols-1 g-3" id="all_comments">
                 <?php foreach ($posts as $post => $val): ?>
                     <div class="col" id="post-<?php echo $val['id'];?>">
                         <div class="card shadow-sm">
@@ -117,7 +126,7 @@ require_once("header.php");
                                         <small class="text-muted"><?php echo Post::getAuthor($val['user_id']); ?></small>
                                     </div>
                                     <small class="text-muted"><?php echo $val['date']; ?></small>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="getId(<?php echo $val['id'];?>)">
                                         Add comment
                                     </button>
                                     <?php
@@ -139,16 +148,14 @@ require_once("header.php");
                                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <form method="post">
                                         <div class="modal-body">
                                             <label class="form-label">Input your comment:</label><br>
                                             <textarea class="form-control" type="text" name="comment" rows="3" id="comment"></textarea><br>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary" onclick="getPostId(<?php echo $val['id'];?>)">Add</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModal">Close</button>
+                                            <button type="submit" class="btn btn-primary" onclick="getPostId()">Add</button>
                                         </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
