@@ -59,4 +59,10 @@ class Post extends Db {
         $date = $stmt->fetchColumn();
         return date('d F Y G:i', strtotime($date));
     }
+
+    public function editPost($id, $text) {
+        $db = new Db();
+        $stmt = $db->getConnection()->prepare("UPDATE `posts` SET `text` = :text WHERE `id` = :id;");
+        $stmt->execute(['id' => $id, 'text' => $text]);
+    }
 }
