@@ -52,7 +52,9 @@ class Comment extends Db {
         return date('d F Y G:i', strtotime($date));
     }
 
-    public function editComment($id) {
-
+    public function editComment($id, $comment) {
+        $db = new Db();
+        $stmt = $db->getConnection()->prepare("UPDATE `comments` SET `comment` = :comment WHERE `id` = :id;");
+        $stmt->execute(['id' => $id, 'comment' => $comment]);
     }
 }

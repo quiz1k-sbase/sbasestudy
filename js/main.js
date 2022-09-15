@@ -36,17 +36,6 @@ function deletePost(id) {
     }
 }
 
-function editComment(id) {
-    $.ajax({
-        type:   'post',
-        url:    '../index.php',
-        data:   'id=' + id,
-        success: function (data) {
-
-        }
-    });
-}
-
 let globalId;
 
 function getId(id) {
@@ -90,32 +79,46 @@ function addComment() {
     let cDate = document.getElementById("cDate").value;
     let id = globalId;
     $.ajax({
-        type:    'post',
-        url:     '../sendCommentData.php',
-        data:   {
+        type: 'post',
+        url: '../sendCommentData.php',
+        data: {
             post_id: id,
             comment: comment,
             cDate: cDate
         },
         success: function (data) {
-            document.getElementById("comment").value="";
+            document.getElementById("comment").value = "";
             document.getElementById("closeModal").click();
             let test = $("#commentsContainer-" + id).html();
             let x = JSON.parse(data);
             $("#commentsContainer-" + id).html('<div class="card w-50 mt-2" id="comment-' + x.id + '">' +
-                 '<div class="card-body" id="commentBody">' +
-                     '<p class="card-text" id="comment-text">' + comment + '</p>' +
-                    '<small class="text-muted">' + x.username + '</small> ' +
-                    '<small class="text-muted">' + cDate + '</small>' +
-                    '<button type=\'button\' class=\'btn btn-warning\' onclick=\'editComment(' + x.id + ')\'>Edit</button>' +
-                    '<button type=\'button\' class=\'btn btn-danger\' onclick=\'deleteComment(' + x.id + ')\'>Delete</button>' +
-                 '</div></div>' + test);
+                '<div class="card-body" id="commentBody">' +
+                '<p class="card-text" id="comment-text">' + comment + '</p>' +
+                '<small class="text-muted">' + x.username + '</small> ' +
+                '<small class="text-muted">' + cDate + '</small>' +
+                '<button type=\'button\' class=\'btn btn-warning\' onclick=\'editComment(' + x.id + ')\'>Edit</button>' +
+                '<button type=\'button\' class=\'btn btn-danger\' onclick=\'deleteComment(' + x.id + ')\'>Delete</button>' +
+                '</div></div>' + test);
 
         }
     });
 }
 
-
-function popUpAddComment() {
-
+function editComment() {
+    let editedComment = document.getElementById("editedComment").value;
+    let id = globalId;
+    $.ajax({
+        type: 'post',
+        url: '../editComment.php',
+        data: {
+            edit: true,
+            editId: id,
+            editText: editedComment
+        },
+        success: function (data) {
+            document.getElementById("editedComment").value = "";
+            document.getElementById("closeEdit").click();
+            document.getElementById("comment-text").innerHTML = editedComment;
+    }
+    });
 }
