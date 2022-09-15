@@ -14,11 +14,9 @@ require_once("header.php");
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1 class="fw-light">Posts:</h1>
-                <form method="post">
                     <label class="form-label">Input your post:</label><br>
                     <textarea class="form-control" type="text" name="text" rows="3" id="text"></textarea><br>
-                    <button class="btn btn-outline-primary w-100" type="submit">Add</button>
-                </form>
+                    <button class="btn btn-outline-primary w-100" type="submit" onclick="addPost()">Add</button>
                 <p class="mt-2">
                     <a href="../logout.php" class="btn btn-danger">Logout</a>
                 </p>
@@ -38,7 +36,7 @@ require_once("header.php");
                                     <div class="btn-group">
                                         <small class="text-muted"><?php echo Post::getAuthor($val['user_id']); ?></small>
                                     </div>
-                                    <small class="text-muted"><?php echo $val['date']; ?></small>
+                                    <small class="text-muted"><?php echo Post::getDate($val['id']) ?></small>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="getId(<?php echo $val['id'];?>)">
                                         Add comment
                                     </button>
@@ -67,7 +65,7 @@ require_once("header.php");
                                                     echo "<button type='button' class='btn btn-danger' onclick='deleteComment($id)'>Delete</button>";
                                                     }
                                                 ?>
-                                                <input class="d-none" id="uName" value="<?php echo Comment::getAuthor($comVal['user_id'])?>">
+                                                <input class="d-none" id="username" value="<?php echo Comment::getAuthor($comVal['user_id'])?>">
                                                 <input class="d-none" id="cDate" value="<?php echo Comment::getDate($comVal['id'])?>">
                                             </div>
                                         </div>

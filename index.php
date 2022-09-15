@@ -25,17 +25,6 @@ if (empty($_SESSION['user']))
 }
 
 $uid = json_decode(json_encode(unserialize($_SESSION['user'])), true);
-if (!empty($_POST['text']))
-{
-    $post = new Post();
-    $post->create($uid['id'], $_POST['text']);
-}
-
-if (!empty($_POST['comment']))
-{
-    $comment = new Comment();
-    $comment->create($uid['id'], $_POST['post_id'], $_POST['comment']);
-}
 
 if (!empty($_POST['id']))
 {

@@ -49,7 +49,7 @@ class Comment extends Db {
         $stmt = $db->getConnection()->prepare("SELECT comments.date FROM `comments` WHERE `id` = :id;");
         $stmt->execute(['id' => $id]);
         $date = $stmt->fetchColumn();
-        return $date;
+        return date('d F Y G:i', strtotime($date));
     }
 
     public function editComment($id) {

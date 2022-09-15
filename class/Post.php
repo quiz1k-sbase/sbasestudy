@@ -51,4 +51,12 @@ class Post extends Db {
         $posts = $stmt->fetchObject();
         return $posts;
     }
+
+    public static function getDate($id) {
+        $db = new Db();
+        $stmt = $db->getConnection()->prepare("SELECT posts.date FROM `posts` WHERE `id` = :id;");
+        $stmt->execute(['id' => $id]);
+        $date = $stmt->fetchColumn();
+        return date('d F Y G:i', strtotime($date));
+    }
 }
