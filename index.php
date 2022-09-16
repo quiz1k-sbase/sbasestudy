@@ -8,6 +8,8 @@ require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "config.php";
 require_once MODEL_PATH . DIRECTORY_SEPARATOR . "User.php";
 require_once MODEL_PATH . DIRECTORY_SEPARATOR . "Comment.php";
 require_once MODEL_PATH . DIRECTORY_SEPARATOR . "Post.php";
+require_once CONTROLLER_PATH . DIRECTORY_SEPARATOR . "CommentController.php";
+require_once CONTROLLER_PATH . DIRECTORY_SEPARATOR . "PostController.php";
 
 
 
@@ -26,16 +28,14 @@ if (empty($_SESSION['user']))
 
 $uid = json_decode(json_encode(unserialize($_SESSION['user'])), true);
 
-if (!empty($_POST['id']))
+if (!empty($_POST['deletePostId']))
 {
-    $delPost = new Post();
-    $delPost->deletePost($_POST['id']);
+    PostController::delete($_POST['deletePostId']);
 }
 
-if (!empty($_POST['comm_id']))
+if (!empty($_POST['commentDeleteId']))
 {
-    $delComm = new Comment();
-    $delComm->deleteComment($_POST['comm_id']);
+    CommentController::delete($_POST['commentDeleteId']);
 }
 
 require_once ROOT_PATH . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "index.php";

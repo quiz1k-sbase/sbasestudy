@@ -64,4 +64,11 @@ class UserController
         }
     }
 
+    public static function logout()
+    {
+        session_destroy();
+        unset($_COOKIE['id']);
+        setcookie('id', '', -1, '/');
+    }
+
 }

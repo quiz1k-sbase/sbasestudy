@@ -1,10 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "config.php";
+require_once CONTROLLER_PATH . DIRECTORY_SEPARATOR . "UserController.php";
 
-session_destroy();
-unset($_COOKIE['id']);
-setcookie('id', '', -1, '/');
+UserController::logout();
 
 header("Location: /login.php");
 die();

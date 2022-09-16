@@ -28,4 +28,10 @@ class CommentController
             $comment->editComment($_POST['editId'], $_POST['editText']);
         }
     }
+
+    public static function delete(int $id)
+    {
+        $delComm = new Comment();
+        $delComm->deleteComment($id);
+    }
 }

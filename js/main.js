@@ -11,7 +11,7 @@ function deleteComment(id) {
         $.ajax({
             type:    'post',
             url:    '../index.php',
-            data:   'comm_id=' + id,
+            data:   'commentDeleteId=' + id,
             success: function (data) {
                 if (data) {
                     $("#comment-" + id).remove();
@@ -26,7 +26,7 @@ function deletePost(id) {
         $.ajax({
             type:    'post',
             url:    '../index.php',
-            data:   'id=' + id,
+            data:   'deletePostId=' + id,
             success: function (data) {
                 if (data) {
                     $("#post-" + id).remove();

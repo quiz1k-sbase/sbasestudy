@@ -29,4 +29,10 @@ class PostController
             $post->editPost($data['editPostId'], $data['editPostText']);
         }
     }
+
+    public static function delete(int $id)
+    {
+        $delPost = new Post();
+        $delPost->deletePost($id);
+    }
 }
