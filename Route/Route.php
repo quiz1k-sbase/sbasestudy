@@ -13,5 +13,10 @@ class Route
         ];
     }
 
+    public static function run(string $url)
+    {
+
+    }
+
 
 }

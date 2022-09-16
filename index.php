@@ -2,16 +2,20 @@
 
 <?php
 
-
-
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "config.php";
 require_once MODEL_PATH . DIRECTORY_SEPARATOR . "User.php";
 require_once MODEL_PATH . DIRECTORY_SEPARATOR . "Comment.php";
 require_once MODEL_PATH . DIRECTORY_SEPARATOR . "Post.php";
 require_once CONTROLLER_PATH . DIRECTORY_SEPARATOR . "CommentController.php";
 require_once CONTROLLER_PATH . DIRECTORY_SEPARATOR . "PostController.php";
+require_once ROUTE_PATH . DIRECTORY_SEPARATOR . "Route.php";
 
+Route::init();
 
+$route = $_GET['route'] ?? '';
+$pattern = '~^index/(.*)$~';
+preg_match($pattern, $route, $matches);
+var_dump($matches);
 
 $comment = new Comment();
 $comments = $comment->allPosts();

@@ -29,7 +29,7 @@ class Post {
     }
 
     public function deletePost($id) {
-        $stmt = Db::getInstance()->getInstance()->getConnection()->prepare("DELETE FROM posts WHERE `id` = :id;");
+        $stmt = Db::getInstance()->getConnection()->prepare("DELETE FROM posts WHERE `id` = :id;");
         $stmt->execute(['id' => $id]);
     }
 

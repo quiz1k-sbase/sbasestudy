@@ -76,7 +76,6 @@ function addPost() {
 
 function addComment() {
     let comment = document.getElementById("comment").value;
-    let cDate = document.getElementById("cDate").value;
     let id = globalId;
     $.ajax({
         type: 'post',
@@ -84,7 +83,6 @@ function addComment() {
         data: {
             post_id: id,
             comment: comment,
-            cDate: cDate
         },
         success: function (data) {
             document.getElementById("comment").value = "";
@@ -95,7 +93,7 @@ function addComment() {
                 '<div class="card-body" id="commentBody">' +
                 '<p class="card-text" id="comment-text-'+ x.id +'">' + comment + '</p>' +
                 '<small class="text-muted">' + x.username + '</small> ' +
-                '<small class="text-muted">' + cDate + '</small> ' +
+                '<small class="text-muted">' + x.cDate + '</small> ' +
                 '<button type=\'button\' class=\'btn btn-warning\' data-bs-toggle=\'modal\' data-bs-target=\'#editComm\' onclick=\'getId('+ x.id +')\'>Edit</button>' +
                 '<button type=\'button\' class=\'btn btn-danger\' onclick=\'deleteComment(' + x.id + ')\'>Delete</button>' +
                 '</div></div>' + test);

@@ -11,13 +11,14 @@ class CommentController
         $comment->create($uid, $_POST['post_id'], $_POST['comment']);
         $comment->allPosts();
         $id = 0;
+        $date = 0;
         foreach ($comment as $com)
         {
             $id = $com;
             break;
         }
 
-        echo json_encode(array('id' => $id, 'username' => Comment::getAuthor($uid)));
+        echo json_encode(array('id' => $id, 'username' => Comment::getAuthor($uid), 'cDate' => Comment::getDate($id)));
     }
 
     public static function edit(array $data)

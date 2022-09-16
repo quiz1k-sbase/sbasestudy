@@ -18,7 +18,9 @@ require_once("header.php");
                     <textarea class="form-control" type="text" name="text" rows="3" id="text"></textarea><br>
                     <button class="btn btn-outline-primary w-100" type="submit" onclick="addPost()">Add</button>
                 <p class="mt-2">
-                    <a href="../logout.php" class="btn btn-danger">Logout</a>
+                    <form action="/logout">
+                        <a href="../logout.php" class="btn btn-danger">Logout</a>
+                    </form>
                 </p>
             </div>
         </div>
@@ -67,8 +69,6 @@ require_once("header.php");
                                                     echo "<button type='button' class='btn btn-danger' onclick='deleteComment($id)'>Delete</button>";
                                                     }
                                                 ?>
-                                                <input class="d-none" id="username" value="<?php echo Comment::getAuthor($comVal['user_id'])?>">
-                                                <input class="d-none" id="cDate" value="<?php echo Comment::getDate($comVal['id'])?>">
                                             </div>
                                         </div>
                                     <?php endif ?>
