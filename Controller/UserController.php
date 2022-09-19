@@ -56,7 +56,7 @@ class UserController
                 if (!empty($data['remember'])) {
                     setcookie("id", 243434, time() + (3600 * 24 * 30));
                 }
-                header("Location: /index.php");
+                header("Location: /");
             } else {
                 $isError = 1;
                 $errors[] = "Please enter valid credentials.";

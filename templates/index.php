@@ -18,9 +18,7 @@ require_once("header.php");
                     <textarea class="form-control" type="text" name="text" rows="3" id="text"></textarea><br>
                     <button class="btn btn-outline-primary w-100" type="submit" onclick="addPost()">Add</button>
                 <p class="mt-2">
-                    <form action="/logout">
                         <a href="../logout.php" class="btn btn-danger">Logout</a>
-                    </form>
                 </p>
             </div>
         </div>
@@ -92,7 +90,9 @@ require_once("header.php");
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModal">Close</button>
+                                            <form onsubmit="event.preventDefault();" action="/index/addCom">
                                             <button type="submit" class="btn btn-primary" onclick="addComment()">Add</button>
+                                            </form>
                                         </div>
                                     </div>
                             </div>

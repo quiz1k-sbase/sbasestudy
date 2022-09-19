@@ -6,7 +6,7 @@ require_once MODEL_PATH . DIRECTORY_SEPARATOR . "User.php";
 require_once CONTROLLER_PATH . DIRECTORY_SEPARATOR . "UserController.php";
 
 if (!empty($_SESSION['user'])) {
-    header("Location: /index.php");
+    header("Location: /");
     die();
 }
 

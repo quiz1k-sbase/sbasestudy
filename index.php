@@ -9,20 +9,7 @@ require_once MODEL_PATH . DIRECTORY_SEPARATOR . "Post.php";
 require_once CONTROLLER_PATH . DIRECTORY_SEPARATOR . "CommentController.php";
 require_once CONTROLLER_PATH . DIRECTORY_SEPARATOR . "PostController.php";
 require_once ROUTE_PATH . DIRECTORY_SEPARATOR . "Route.php";
-
-Route::init();
-
-$route = $_GET['route'] ?? '';
-$pattern = '~^index/(.*)$~';
-preg_match($pattern, $route, $matches);
-var_dump($matches);
-
-$comment = new Comment();
-$comments = $comment->allPosts();
-
-$post = new Post();
-$posts = $post->allPosts();
-
+require_once VIEW_PATH . DIRECTORY_SEPARATOR . "View.php";
 
 if (empty($_SESSION['user']))
 {
@@ -31,6 +18,8 @@ if (empty($_SESSION['user']))
 }
 
 $uid = json_decode(json_encode(unserialize($_SESSION['user'])), true);
+$route = new Route();
+
 
 if (!empty($_POST['deletePostId']))
 {
@@ -42,4 +31,11 @@ if (!empty($_POST['commentDeleteId']))
     CommentController::delete($_POST['commentDeleteId']);
 }
 
-require_once ROOT_PATH . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "index.php";
+$route->get('/', View::class . '::execute');
+$route->post('/', function ($params) {});
+
+$route->addNotFoundHandler(function () {
+    require_once ROOT_PATH . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . "404.php";
+});
+
+$route->run();

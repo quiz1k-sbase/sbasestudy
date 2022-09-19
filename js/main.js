@@ -10,7 +10,7 @@ function deleteComment(id) {
     if (confirm("Do you want delete this comment?")) {
         $.ajax({
             type:    'post',
-            url:    '../index.php',
+            url:    '../',
             data:   'commentDeleteId=' + id,
             success: function (data) {
                 if (data) {
@@ -25,7 +25,7 @@ function deletePost(id) {
     if (confirm("Do you want delete this comment?")) {
         $.ajax({
             type:    'post',
-            url:    '../index.php',
+            url:    '../',
             data:   'deletePostId=' + id,
             success: function (data) {
                 if (data) {
